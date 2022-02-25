@@ -1,7 +1,16 @@
 
 services: 
   nginx:
-    build: .
+    build: nginx/.
     image: nginx_image
+    working_dir: /var/www/html
     ports:
       - 80:80
+    # volumes: 
+    #   - ./site.conf:/etc/nginx/conf.d/site.conf
+    links:
+      - php-wordpress
+  
+  php-wordpress:
+    build: php-wordpress/.
+    working_dir: /var/www/html
