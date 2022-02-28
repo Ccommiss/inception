@@ -1,12 +1,14 @@
 FROM	debian:buster
 RUN		apt-get update -y
 RUN		apt-get install -y nginx
-COPY	./nginx.conf /etc/nginx/
-COPY	./index.php /var/www/html/
 
+COPY	./nginx.conf /etc/nginx/
 #la ou y a les fichiers conf
 COPY  	./index.html /var/www/html/
-#COPY	./index.nginx-debian.html /var/www/html/ #ca casse tout si je modifie ....... alors que meme filename
+COPY  	./index.php /var/www/html/
+RUN		chmod 755 /var/www/html
+RUN		chmod 644 /var/www/html/index.html
+RUN		chown -R www-data:www-data /var/www
 CMD		["nginx", "-g", "daemon off;"]
 #CMD		bash /var/launch.sh
 
