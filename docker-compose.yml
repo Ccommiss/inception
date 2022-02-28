@@ -1,16 +1,22 @@
 
-services: 
+services:
   nginx:
-    build: nginx/.
-    image: nginx_image
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     working_dir: /var/www/html
     ports:
       - 80:80
-    # volumes: 
-    #   - ./site.conf:/etc/nginx/conf.d/site.conf
-    links:
-      - php-wordpress
-  
+    # depends_on:
+    #   - php-wordpress
+    # links:
+    #   - php-wordpress
+
   php-wordpress:
-    build: php-wordpress/.
+    build:
+      context: ./php-wordpress
+      dockerfile: Dockerfile
+    image: my_php
+    expose:
+      - 9000
     working_dir: /var/www/html
