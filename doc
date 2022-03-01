@@ -1,0 +1,8 @@
+--execute=statement, -e statement
+
+Execute the statement and quit. The default output format is like that produced with --batch. See Section 4.2.3.1, "Using Options on the Command Line", for some examples. With this option, mysql does not use the history file.  
+
+
+
+https://stackoverflow.com/questions/50630722/error-the-command-bin-sh-returned-a-non-zero-code-1
+Bash script for CMD 

@@ -1,0 +1,7 @@
+volumes:
+  wp-db:
+  	# driver: local
+		# driver_opts: 
+    # 	type: none
+		# 	device: <host_path>
+		# 	o: bind

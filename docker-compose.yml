@@ -11,6 +11,8 @@ services:
        - php-wordpress
     networks:
       - internal
+    volumes:
+      - wp-files:/var/www/html
     # links:
     #   - php-wordpress
 
@@ -28,11 +30,8 @@ services:
        - maria-db
     networks:
       - internal
-    environment:
-      WORDPRESS_DB_HOST: maria-db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-files:/var/www/html
 
   maria-db:
     build:
@@ -40,8 +39,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3306:3306
+    networks:
+      - internal
+    volumes:
+      - wp-db:/var/www/html
+
     environment:
-      MYSQL_ROOT_PASSWORD: rootpress
+      MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
@@ -50,3 +54,9 @@ services:
 networks:
   internal:
     driver: bridge
+
+volumes:
+  wp-db:
+
+  wp-files:
+    name: wp-files
