@@ -3,15 +3,12 @@ RUN		apt-get update -y
 RUN		apt-get install -y nginx
 
 COPY	./nginx.conf /etc/nginx/
-#la ou y a les fichiers conf
-#COPY  	./index.html /var/www/html/
-#COPY  	./index.php /var/www/html/
-#RUN		chmod 755 /var/www/html
-#RUN		chmod 644 /var/www/html/index.html
-#RUN		chown -R www-data:www-data /var/www
-
 RUN		ln -sf /dev/stdout /var/log/nginx/access.log \
-		&& ln -sf /dev/stderr /var/log/nginx/error.log
+		&& ln -sf /dev/stderr /var/log/nginx/error.log \
+		&& apt-get install openssl \
+		&& openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=FR/ST= /L= /O= /CN=localhost"  -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+
+
 CMD		["nginx", "-g", "daemon off;"]
 #CMD		bash /var/launch.sh
 
