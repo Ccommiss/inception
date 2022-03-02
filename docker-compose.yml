@@ -12,7 +12,7 @@ services:
     networks:
       - internal
     volumes:
-      - $PWD/data:/var/www/html
+      - /home/ccommiss/data:/var/www/html
     # links:
     #   - php-wordpress
 
@@ -31,7 +31,7 @@ services:
     networks:
       - internal
     volumes:
-      - $PWD/data:/var/www/html
+      - /home/ccommiss/data:/var/www/html
 
   maria-db:
     build:
@@ -41,13 +41,13 @@ services:
       - 3306:3306
     networks:
       - internal
-    volumes:
-      - $PWD/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
+    #volumes:
+    #  - $PWD/data:/var/lib/mysql
 
 # networks permet de faire la co genre php:9000
 networks:

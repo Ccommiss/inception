@@ -197,3 +197,8 @@ Nous allons vouloir créer un bind mounts volume. En gros, on va choisir un rép
 
 
 https://towardsdatascience.com/the-complete-guide-to-docker-volumes-1a06051d2cce
+
+
+Une chose a savoir pour les volumes : 
+- Quand on bind un volume avec un dossier, ce qu'il y avait dans le dossiern est overwrite.
+- Une solution : si il y a absolument des fichiers qu'on a besoin de copier dans pile poil ce repertoire, on fait la manip depuis un script. 
