@@ -125,24 +125,31 @@ location ~ \.php$ {
 Ici on a deux solutions :
 - Soit on met une IP statique à un conteneur docker de php, imaginons 178.123.123.123.
 On met 178.123.123.123:9000. OK mais giga relou.
-- Réussir à communiquer directement via le nom de notre service. Ce serait vachement pratique ; pour ping mon container dont le nom de service est monphpfpm, il suffirait de faire monphpfpm:9000.
+- Réussir à communiquer directement via le nom de notre service. Ce serait vachement pratique ; pour ping mon container dont le nom de service est monphpfpm, il suffirait de faire monphpfpm:<port concerné>.
 
 Eh bien...... C'est possible grâce qu docker network, en bridge !
 
 
+#### Docker network
 
 
-Serveur DNS intégré
+D'après cette documentation, on lit que Docker daemon (le processus qui s'éxécute en arrière plan) possède un résolveur DNS intégré. Un résolveur DNS, c'est une sorte d'annuaire qui fait correspondre une adresse IP et un nom de domaine. Pour ça que vous pouvez juste retenir "google.fr", et pas quatre blocs de trois chiffres pour poser une question.
 
-Docker daemon exécute un serveur DNS intégré qui fournit une résolution de noms aux conteneurs connectés au réseau créé par les utilisateurs, de sorte que ces conteneurs peuvent résoudre les noms de d’hôtes en adresses IP.
+> Serveur DNS intégré
+>
+> Docker daemon exécute un serveur DNS intégré qui fournit **une résolution de noms aux conteneurs connectés au réseau créé par les utilisateurs, de sorte que ces conteneurs peuvent résoudre les noms de d’hôtes en adresses IP**.
+>
+>Si le serveur DNS intégré est incapable de résoudre la demande, il sera transmis à tous les serveurs DNS externes configurés pour le conteneur. Pour faciliter cela lorsque le conteneur est créé, seul le serveur DNS intégré 127.0.0.11 est renseigné dans le fichier resolv.conf du conteneur.
+>
+>Source : https://blog.alphorm.com/reseau-docker-partie-1-bridge/
 
-Si le serveur DNS intégré est incapable de résoudre la demande, il sera transmis à tous les serveurs DNS externes configurés pour le conteneur. Pour faciliter cela lorsque le conteneur est créé, seul le serveur DNS intégré 127.0.0.11 est renseigné dans le fichier resolv.conf du conteneur.
-Source : https://blog.alphorm.com/reseau-docker-partie-1-bridge/
+Il y a quand même une condition : de base, les conteneurs sont parfaitement isolés, c'est le principe de docker. Docker propose un network par défaut, mais celui-ci ne permet pas aux containeurs de se connecter entre eux. Il nous faut un *user defined* network.
+
+``` docker network inspect __networkname___ ```
 
 
 
-
-https://stackoverflow.com/questions/31149501/how-to-reach-docker-containers-by-name-instead-of-ip-address 
+https://stackoverflow.com/questions/31149501/how-to-reach-docker-containers-by-name-instead-of-ip-address
 
 
 
@@ -158,5 +165,35 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and
 
 
 
+Rien de très sorcier en rélaite ; on va seulement créer un neetwork avec le nom aue vous voulez et une spécificitié : driver bridge. Grâce à ça, c'est Docker Engine qui va s'occuper de toute la tambouille de firewalls etc pour configurer le réseau, pour que seuls les gens connectés sur son réseau puissent se connecter.
+
+Voilà un schéma :
+
+<img src="http://img.scoop.it/bmExZyvGWidultcwx9hCb7nTzqrqzN7Y9aBZTaXoQ8Q=">
+
+Selon la documentation :
+>The bridge driver creates a private network internal to the host so containers on this network can communicate. External access is granted by exposing ports to containers. Docker secures the network by managing rules that block connectivity between different Docker networks.
+>
+>https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/
 
 
+### Part 3 : wordpress
+
+#### Maria DB
+
+#### Wordpress
+
+### Partager des volumes
+
+Comme nous allons faire des choses dans notre base de données et wordpress, on aimerait que ce soit persistant. Si on ne crée pas de volumes, il faudrait tout recommencer à chaque fois qu'on relance le container...
+
+Syntax: ```/host/path:/container/path ```
+
+Nous allons vouloir créer un bind mounts volume. En gros, on va choisir un répertoire courant de notre host, qui va stocker les data de notre container.
+
+
+```volumes: ```
+``` - $PWD/data:/var/lib/mysql```
+
+
+https://towardsdatascience.com/the-complete-guide-to-docker-volumes-1a06051d2cce

@@ -11,8 +11,8 @@ services:
        - php-wordpress
     networks:
       - internal
-    #volumes:
-    #  - wp-files:/var/www/html
+    volumes:
+      - $PWD/data:/var/www/html
     # links:
     #   - php-wordpress
 
@@ -30,8 +30,8 @@ services:
        - maria-db
     networks:
       - internal
-  # volumes:
-  #  - wp-files:/var/www/html
+    volumes:
+      - $PWD/data:/var/www/html
 
   maria-db:
     build:
@@ -41,8 +41,8 @@ services:
       - 3306:3306
     networks:
       - internal
-    #volumes:
-    #  - wp-db:/var/www/html
+    volumes:
+      - $PWD/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
