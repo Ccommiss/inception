@@ -9,6 +9,9 @@ RUN		chmod 755 /var/www/html
 RUN		chmod 644 /var/www/html/index.php
 RUN		chown -R www-data:www-data /var/www
 
+COPY ./wp-config.php /var/www/html/
+COPY ./launch.sh  /var/www/html/
+
 RUN 	apt-get install curl mariadb-client -y
 ##mariadb-client
 
@@ -16,8 +19,7 @@ RUN 	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cl
 RUN		chmod +x wp-cli.phar
 RUN		mv wp-cli.phar /usr/local/bin/wp
 
-COPY	./wp-config.php ./var/www/html/ 
-COPY 	./launch.sh ./var/www/html/ 
-#va mettre les username ec 
+
+#va mettre les username ec
 EXPOSE	9000
 CMD [ "bash", "/var/www/html/launch.sh" ]
