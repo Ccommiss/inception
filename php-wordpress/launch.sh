@@ -1,6 +1,8 @@
 cd /var/www/html
 wp core download --allow-root
 mv /etc/wp-config.php . #on bouge
+chmod o+r wp-config.php
+#o = pour others  
 until mysqladmin -hmaria-db -uwordpress -pwordpress ping && mariadb -hmaria-db -uwordpress -pwordpress -e "SHOW DATABASES;" | grep "wp_wordpress"; do
 	sleep 2
 done
