@@ -23,7 +23,7 @@ Tous les credits de ces instructions au plus gros crack de la galaxie. Même si 
   - [Part 3 : Wordpress et MariaDB](#part-3--wordpress-et-mariadb)
       - [Maria DB et Wordpress : vue d'ensemble et interactions](#maria-db-et-wordpress--vue-densemble-et-interactions)
       - [Maria DB](#maria-db)
-        - [Comment faire communiquer Maria DB et le reste ?](#comment-faire-communiquer-maria-db-et-le-reste-)
+        - [Comment faire communiquer MariaDB et le reste ?](#comment-faire-communiquer-mariadb-et-le-reste-)
       - [Wordpress](#wordpress)
     - [Outilllage Docker](#outilllage-docker)
       - [Docker volumes : partager des fichiers locaux entre nos containeurs](#docker-volumes--partager-des-fichiers-locaux-entre-nos-containeurs)
@@ -200,7 +200,7 @@ define( 'DB_USER', 'wordpress' );
 define( 'DB_PASSWORD', 'wordpress' );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'maria-db' );
+define( 'DB_HOST', 'mariadb' );
 ```
 
 #### Maria DB 
@@ -225,7 +225,7 @@ Une autre commande tres pratique pour checker des choses en rapport avec comment
 
 Nb: On s'en servira egalement depuis Wordpress. Pour pouvoir l'utiliser, il faut installer la package ``` mariadb-client ``` : on est cote client, et plus cote serveur/.
 
-##### Comment faire communiquer Maria DB et le reste ?
+##### Comment faire communiquer MariaDB et le reste ?
 
 De la meme maniere qu'on a change les parametres de NGINX, Maria DB ne doit plus etre bindee sur 127.0.0.1 mais sur tous les acteurs du reseau.
 Il suffit de commenter cette ligne :
@@ -240,14 +240,14 @@ Petite astuce neanmoins : les containeurs sont lances en meme temps, et la direc
 Un petit morceau de code (toujours par le sublime @arthur-trt) qui permettra a toutes vos etapes de bien se derouler. On utilise donc cette fabuleuse commande [```mysqladmin```](https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html)
 
 ```
-until mysqladmin -hmaria-db -uwordpress -pwordpress ping 
-    && mariadb -hmaria-db -uwordpress -pwordpress -e "SHOW DATABASES;" | grep "wp_wordpress"; do
+until mysqladmin -hmariadb -uwordpress -pwordpress ping 
+    && mariadb -hmariadb -uwordpress -pwordpress -e "SHOW DATABASES;" | grep "wp_wordpress"; do
 	sleep 2
 done
 ```
 
 <span style="color:green;"> Qu'est-ce qu'on fait ici? </span>
-On sleep tant qu'on n'arrive pas a se connecter a l'host maria-db (c'est le nom du service donne dans le docker compose), avec l'utilisateur wordpress (cree dans le script de lancement mysql), le mot de passe wordpress ; on execute ensuite dans ce meme service une commande SHOW DATABASES et un grep sur le nom de la table censee etre creee. Ainsi, on s'assure que wp n'essaie pas de se configurer (a l'aide de son fichier wp-config) avant meme que sa base de donnee soit creee.
+On sleep tant qu'on n'arrive pas a se connecter a l'host mariadb (c'est le nom du service donne dans le docker compose), avec l'utilisateur wordpress (cree dans le script de lancement mysql), le mot de passe wordpress ; on execute ensuite dans ce meme service une commande SHOW DATABASES et un grep sur le nom de la table censee etre creee. Ainsi, on s'assure que wp n'essaie pas de se configurer (a l'aide de son fichier wp-config) avant meme que sa base de donnee soit creee.
 
 On peut desormais installer Wordpress.
 On a deux options en realite :
