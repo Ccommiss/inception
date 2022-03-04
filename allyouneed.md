@@ -311,3 +311,7 @@ Selon la documentation :
 >The bridge driver creates a private network internal to the host so containers on this network can communicate. External access is granted by exposing ports to containers. Docker secures the network by managing rules that block connectivity between different Docker networks.
 >
 ><https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/>
+
+
+volumes 
+https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose

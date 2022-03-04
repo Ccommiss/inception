@@ -12,9 +12,7 @@ services:
     networks:
       - internal
     volumes:
-      - /home/ccommiss/data:/var/www/html
-    # links:
-    #   - php-wordpress
+      - wp-files:/var/www/html
 
   php-wordpress:
     build:
@@ -31,7 +29,7 @@ services:
     networks:
       - internal
     volumes:
-      - /home/ccommiss/data:/var/www/html
+      - wp-files:/var/www/html
     env_file:
       - .env
 
@@ -47,16 +45,24 @@ services:
       - .env
     environment:
       - TEST=ICI
-    #volumes:
-    # - /home/ccommiss/data:/var/lib/mysql
+    volumes:
+     - wp-db:/var/lib/mysql
 
-# networks permet de faire la co genre php:9000
 networks:
   internal:
     driver: bridge
 
 volumes:
   wp-db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ccommiss/data/wp-db
+      o: bind
 
   wp-files:
-    name: wp-files
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ccommiss/data/wp-files
+      o: bind
