@@ -14,8 +14,8 @@ mariadb -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE"
 
 ## CREE UN USER PAS ADMIN */
 
-mariadb -e "CREATE USER '$MYSQL_RANDOM_USER'@'maria-db'"
-mariadb -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE . * TO '$MYSQL_RANDOM_USER'@'maria-db'"
+mariadb -e "CREATE USER '$MYSQL_RANDOM_USER'@'mariadb'"
+mariadb -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE . * TO '$MYSQL_RANDOM_USER'@'mariadb'"
 mariadb -e "FLUSH PRIVILEGES"
 killall mysqld
 mysqld 

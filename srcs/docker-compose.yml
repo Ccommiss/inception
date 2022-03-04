@@ -21,30 +21,26 @@ services:
     image: my_php
     ports:
       - 9000:9000
-    expose:
-      - 9000
     working_dir: /var/www/html
     depends_on:
-       - maria-db
+       - mariadb
     networks:
       - internal
     volumes:
       - wp-files:/var/www/html
     env_file:
-      - requirements/.env
+      - .env
 
-  maria-db:
+  mariadb:
     build:
-      context: requirements/maria-db
+      context: requirements/mariadb
       dockerfile: Dockerfile
     ports:
       - 3306:3306
     networks:
       - internal
     env_file:
-      - requirements/.env
-    environment:
-      - TEST=ICI
+      - .env
     volumes:
      - wp-db:/var/lib/mysql
 

@@ -3,7 +3,7 @@ wp core download --allow-root
 mv /etc/wp-config.php . #on bouge
 chmod o+r wp-config.php
 #o = pour others  
-until mysqladmin -hmaria-db -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} ping && mariadb -hmaria-db -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} -e "SHOW DATABASES;" | grep ${MYSQL_DATABASE}; do
+until mysqladmin -hmariadb -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} ping && mariadb -hmariadb -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} -e "SHOW DATABASES;" | grep ${MYSQL_DATABASE}; do
 	sleep 2
 done
 echo "SQL ADMIN REACHED"

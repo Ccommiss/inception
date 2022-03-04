@@ -31,7 +31,7 @@ define( 'DB_USER', 'ccommiss');
 define( 'DB_PASSWORD', 'CeciEstUnMdpDur7319#' );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'maria-db' );
+define( 'DB_HOST', 'mariadb' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
