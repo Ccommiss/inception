@@ -2,13 +2,13 @@
 services:
   nginx:
     build:
-      context: ./nginx
+      context: requirements/nginx
       dockerfile: Dockerfile
     working_dir: /var/www/html
     ports:
       - 443:443
     depends_on:
-       - php-wordpress
+      - php-wordpress
     networks:
       - internal
     volumes:
@@ -16,7 +16,7 @@ services:
 
   php-wordpress:
     build:
-      context: ./php-wordpress
+      context: requirements/php-wordpress
       dockerfile: Dockerfile
     image: my_php
     ports:
@@ -31,18 +31,18 @@ services:
     volumes:
       - wp-files:/var/www/html
     env_file:
-      - .env
+      - requirements/.env
 
   maria-db:
     build:
-      context: ./maria-db
+      context: requirements/maria-db
       dockerfile: Dockerfile
     ports:
       - 3306:3306
     networks:
       - internal
     env_file:
-      - .env
+      - requirements/.env
     environment:
       - TEST=ICI
     volumes:

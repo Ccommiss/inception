@@ -2,8 +2,6 @@ mysqld&
 until mysqladmin ping; do
 	sleep 2
 	echo "(fail to ping)"
-	echo $MYSQL_ROOT_USER
-	echo $TEST
 done
 cd /root/
 
@@ -20,4 +18,4 @@ mariadb -e "CREATE USER '$MYSQL_RANDOM_USER'@'maria-db'"
 mariadb -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE . * TO '$MYSQL_RANDOM_USER'@'maria-db'"
 mariadb -e "FLUSH PRIVILEGES"
 killall mysqld
-mysqld
+mysqld 
