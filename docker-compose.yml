@@ -32,6 +32,8 @@ services:
       - internal
     volumes:
       - /home/ccommiss/data:/var/www/html
+    env_file:
+      - .env
 
   maria-db:
     build:
@@ -41,13 +43,12 @@ services:
       - 3306:3306
     networks:
       - internal
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      - TEST=ICI
     #volumes:
-    #  - $PWD/data:/var/lib/mysql
+    # - /home/ccommiss/data:/var/lib/mysql
 
 # networks permet de faire la co genre php:9000
 networks:
