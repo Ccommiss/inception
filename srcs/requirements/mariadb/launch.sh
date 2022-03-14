@@ -17,5 +17,11 @@ mariadb -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE"
 mariadb -e "CREATE USER '$MYSQL_RANDOM_USER'@'mariadb'"
 mariadb -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE . * TO '$MYSQL_RANDOM_USER'@'mariadb'"
 mariadb -e "FLUSH PRIVILEGES"
+
+## SUPPRIME LA CO ROOT
+mariadb -e "DELETE FROM mysql.user WHERE user=''"
+mariadb -e "DELETE FROM mysql.user WHERE user='root'"
+mariadb -e "FLUSH PRIVILEGES"
+
 killall mysqld
 mysqld 

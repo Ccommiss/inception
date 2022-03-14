@@ -9,7 +9,6 @@ done
 echo "SQL ADMIN REACHED"
 wp core install --url="ccommiss.42.fr" --title="Mon site web @ccommiss" --admin_user="${MYSQL_ROOT_USER}" --admin_password="${MYSQL_ROOT_PASSWORD}" --admin_email="lol@lol.fr" --skip-email --allow-root
 wp user create bob bob@example.com --role=author --user_pass="${BOB_PASS}" --allow-root
-#wp theme install botiga --activate --allow-root
 
 php-fpm7.3 -F -R
 root

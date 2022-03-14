@@ -10,9 +10,7 @@ RUN		ln -sf /dev/stdout /var/log/nginx/access.log \
 
 
 CMD		["nginx", "-g", "daemon off;"]
-#CMD		bash /var/launch.sh
 
 
-# ca fonctionne de mettre hello world dans /usr/share/nginx/html/ mais que auqnd je suis en it mode
-# https://stackoverflow.com/questions/50705838/docker-compose-with-nginx-keeps-displaying-welcome-page
+#https://stackoverflow.com/questions/50705838/docker-compose-with-nginx-keeps-displaying-welcome-page
 #https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
