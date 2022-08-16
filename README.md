@@ -1,6 +1,7 @@
 # Inception
 
-One Paragraph of project description goes here
+Inception is a project aimed at handling Docker and Docker-compose. 
+Three containers will be created and interacting with each other : Nginx, Maria-db/Wordpress, and Php-fpm.
 
 ## Getting Started
 
@@ -59,7 +60,7 @@ En gros :
  Pour le projet qui nous intéresse, on aura besoin que de lui.
 - D'autres fichiers de conf, dans le dossier /etc/nginx/conf.d, à inclure qvec une directive include dans le fichier nginx.conf. Une bonne pratique peut être de diviser les blocs de directives selon les services, et avoir dans ce sous dossier un mail.conf, serviceenacronyme.conf, etc.
 
-<https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/>
+[See more on offical Nginx doc](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files)
 
 #### La directive *```listen```*
 
@@ -93,7 +94,7 @@ Eh bien tous les fichiers qu'on pourra servir seront ceux placés dans ce réper
 
 Cette directive est à placer dans le bloc serveur ; mais on peut en replacer d'autres dans d'autres blocs.
 
-[Plus d'infos](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/)
+[See more on offical Nginx doc](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/)
 
 #### La directive *```location```*
 
@@ -122,10 +123,11 @@ On peut lire dans la [la sainte doc](https://www.digitalocean.com/community/tuto
 
 ``` fastcgi_pass: ``` The actual directive that passes requests in the current context to the backend. This defines the location where the FastCGI processor can be reached.
 
+
 <https://www.digitalocean.com/community/tutorials/>
 
-how-to-set-up-laravel-nginx-and-mysql-with-docker-compose#step-5-configuring-php
-In the php location block, the fastcgi_pass directive specifies that the app service is listening on a TCP socket on port 9000. This makes the PHP-FPM server listen over the network rather than on a Unix socket. Though a Unix socket has a slight advantage in speed over a TCP socket, it does not have a network protocol and thus skips the network stack. For cases where hosts are located on one machine, a Unix socket may make sense, but in cases where you have services running on different hosts, a TCP socket offers the advantage of allowing you to connect to distributed services. Because our app container is running on a different host from our webserver container, a TCP socket makes the most sense for our configuration.
+On peut lire [ici](how-to-set-up-laravel-nginx-and-mysql-with-docker-compose#step-5-configuring-php) 
+>In the php location block, the fastcgi_pass directive specifies that the app service is listening on a TCP socket on port 9000. This makes the PHP-FPM server listen over the network rather than on a Unix socket. Though a Unix socket has a slight advantage in speed over a TCP socket, it does not have a network protocol and thus skips the network stack. For cases where hosts are located on one machine, a Unix socket may make sense, but in cases where you have services running on different hosts, a TCP socket offers the advantage of allowing you to connect to distributed services. Because our app container is running on a different host from our webserver container, a TCP socket makes the most sense for our configuration.
 
 Voila.
 
@@ -146,7 +148,7 @@ Pour l'instant partons du principe que vous pouvez ecrire : [nom du service tel 
 
 ##### Dans le container PHP-FPM
 
-Dans le fichier /etc/php/7.3/fpm/pool.d/www.conf : on trouve le fichier de configuration de fpm.
+Dans le fichier ```/etc/php/7.3/fpm/pool.d/www.conf ``` : on trouve le fichier de configuration de fpm.
 Il va falloir aussi le modifier.
 
 On retrouve ici cette directive qui parle de FastCGI : comme on l'a dit plus haut et deja modifie dans NGINX, on passe d'une ecoute sur un socket unix, a une ecoute sur un port, pour accespter les requetes venant de nos autres conteneurs et de toutes les addresses.
@@ -218,7 +220,7 @@ CREATE DATABASE IF NOT EXISTS wp_wordpress;
 ```
 
 Pour lancer le service MariaDB, on se sert de la commande : mysqld. 
-C'est ecrit la : https://mariadb.com/kb/en/starting-and-stopping-mariadb-automatically/ 
+[See command on mariadb official doc](https://mariadb.com/kb/en/starting-and-stopping-mariadb-automatically) 
 
 Une autre commande tres pratique pour checker des choses en rapport avec comment va MySQL : [mysqladmin.](https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html)
 
@@ -255,9 +257,9 @@ On a deux options en realite :
 - copier les fichiers sources.
 
 
-### Outilllage Docker
+## Outilllage Docker
 
-#### Docker volumes : partager des fichiers locaux entre nos containeurs
+### Docker volumes : partager des fichiers locaux entre nos containeurs
 
 Comme nous allons faire des choses dans notre base de données et wordpress, on aimerait que ce soit persistant. Si on ne crée pas de volumes, il faudrait tout recommencer à chaque fois qu'on relance le container...
 
@@ -275,7 +277,7 @@ Une chose a savoir pour les volumes :
 - Quand on bind un volume avec un dossier, ce qu'il y avait dans le dossier est overwrite.
 - Une solution : si il y a absolument des fichiers qu'on a besoin de copier dans pile poil ce repertoire, on fait la manip depuis un script.
 
-#### Docker network : faire communiquer nos containeurs entre eux avec leur nom de service
+### Docker network : faire communiquer nos containeurs entre eux avec leur nom de service
 
 D'après cette documentation, on lit que Docker daemon (le processus qui s'éxécute en arrière plan) possède un résolveur DNS intégré. Un résolveur DNS, c'est une sorte d'annuaire qui fait correspondre une adresse IP et un nom de domaine. Pour ça que vous pouvez juste retenir "google.fr", et pas quatre blocs de trois chiffres pour poser une question.
 
@@ -313,5 +315,10 @@ Selon la documentation :
 ><https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/>
 
 
-volumes 
+Sur les volumes : 
 https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
+
+
+#### Voila. 
+
+Evidemment il y a plusieurs manières de faire de projet ; si vous voyez des erreurs, avez d'autres moyens de faire, n'hésitez pas à me le dire ! Bon courage :) 
